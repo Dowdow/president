@@ -52,7 +52,7 @@ const App = () => {
 			<div className="container">
 				{player.username === null ? <UsernameForm /> : ''}
 				{player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
-				{player.username !== null && game !== null ? <Game /> : ''}
+				{player.username !== null && game !== null ? <Game socket={socket} game={game} /> : ''}
 			</div>
 		</div>
 	)

@@ -11,7 +11,6 @@ class Creator {
 		this.games[game.id] = game;
 		game.addPlayer(socket, username);
 		game.notifyGameData();
-		console.log(game);
 	}
 
 	joinGame(socket, { id, username }) {
@@ -30,7 +29,6 @@ class Creator {
 
 		game.addPlayer(socket, username);
 		game.notifyGameData();
-		console.log(game);
 	}
 
 	leaveGame(socket, { id }) {
@@ -42,8 +40,10 @@ class Creator {
 		const game = this.games[id];
 		game.removePlayer(socket);
 		this.checkGameEmpty(game);
-		game.notifyGameData();
-		console.log(game);
+
+		if (this.games[id] !== undefined) {
+			game.notifyGameData();
+		}
 	}
 
 	searchDisconnectPlayer(socket) {
@@ -52,12 +52,12 @@ class Creator {
 			if (game.hasPlayer(socket)) {
 				game.removePlayer(socket);
 				this.checkGameEmpty(game);
-				game.notifyGameData();
+				if (this.games[i] !== undefined) {
+					game.notifyGameData();
+				}
 				break;
 			}
 		}
-
-		console.log(this.games);
 	}
 
 	checkGameEmpty(game) {
