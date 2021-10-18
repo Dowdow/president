@@ -1,6 +1,6 @@
 const Player = require('./player');
 const { generateUniqueId } = require('./common');
-const { ADD_PLAYER, REMOVE_PLAYER } = require('../shared/messages');
+const { ADD_PLAYER, REMOVE_PLAYER, GAME_DATA } = require('../shared/messages');
 
 class Game {
 	constructor() {
@@ -13,13 +13,10 @@ class Game {
 		const player = new Player(socket.id, username);
 		this.sockets[socket.id] = socket;
 		this.players[socket.id] = player;
-		this.notifyAddPlayer(player.serialize());
 	}
 
 	removePlayer(socket) {
 		delete this.sockets[socket.id];
-		const player = this.players[socket.id];
-		this.notifyRemovePlayer(player.serialize());
 		delete this.players[socket.id];
 	}
 
@@ -28,21 +25,27 @@ class Game {
 	}
 
 	hasPlayer(socket) {
-		return this.socket[socket.id] !== undefined;
+		return this.sockets[socket.id] !== undefined;
 	}
 
-	notifyAddPlayer(player) {
+	notifyGameData() {
 		for (const i in this.sockets) {
 			const socket = this.sockets[i];
-			socket.emit(ADD_PLAYER, player);
+			socket.emit(GAME_DATA, this.serialize());
 		}
 	}
 
-	notifyRemovePlayer(player) {
-		for (const i in this.sockets) {
-			const socket = this.sockets[i];
-			socket.emit(REMOVE_PLAYER, player);
+	serialize() {
+		const players = {};
+		for (const i in this.players) {
+			const player = this.players[i];
+			players[player.id] = player.serialize();
 		}
+
+		return {
+			id: this.id,
+			players: players,
+		};
 	}
 }
 

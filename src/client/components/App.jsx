@@ -4,8 +4,9 @@ import UsernameForm from './UsernameForm';
 import GameSettings from './GameSettings';
 import Game from './Game';
 import { connect } from '../actions/socket';
+import { setGameData } from '../actions/game';
 import { setPlayerConnected } from '../actions/player';
-import { CLIENT_CONNECT, CLIENT_DISCONNECT, SERVER_DISCONNECT } from '../../shared/messages';
+import { CLIENT_CONNECT, CLIENT_DISCONNECT, GAME_DATA } from '../../shared/messages';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -31,7 +32,10 @@ const App = () => {
 
 		socket.on(CLIENT_DISCONNECT, () => {
 			dispatch(setPlayerConnected(false));
-			socket.emit(SERVER_DISCONNECT, { coucou: 'coucou' });
+		});
+
+		socket.on(GAME_DATA, (data) => {
+			dispatch(setGameData(data));
 		});
 	}, [socket]);
 
@@ -47,7 +51,7 @@ const App = () => {
 			</header>
 			<div className="container">
 				{player.username === null ? <UsernameForm /> : ''}
-				{player.username !== null && game === null ? <GameSettings socket={socket} username={username} /> : ''}
+				{player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
 				{player.username !== null && game !== null ? <Game /> : ''}
 			</div>
 		</div>

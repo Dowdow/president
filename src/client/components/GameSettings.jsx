@@ -1,11 +1,28 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createGame, joinGame } from '../actions/game';
+import { ERROR_GAME_FULL, ERROR_GAME_ID } from '../../shared/messages';
 
 const GameSettings = ({ socket, username }) => {
 	const dispatch = useDispatch();
 
 	const [gameId, setGameId] = useState('');
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		if (socket === null) {
+			return;
+		}
+
+		socket.on(ERROR_GAME_ID, () => {
+			setError('Error - The game id is incorrect');
+		});
+
+		socket.on(ERROR_GAME_FULL, () => {
+			setError('Error - The game is full');
+		});
+
+	}, [socket]);
 
 	const handleCreateGame = () => {
 		dispatch(createGame(socket, username));
@@ -26,6 +43,7 @@ const GameSettings = ({ socket, username }) => {
 
 	return (
 		<div className="game-settings">
+			{error !== null ? <div className="error">{error}</div> : ''}
 			<div className="create">
 				<h3>Create a new game</h3>
 				<button onClick={handleCreateGame}>Create</button>

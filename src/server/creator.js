@@ -1,3 +1,4 @@
+const Game = require('./game');
 const { ERROR_GAME_ID, ERROR_GAME_FULL } = require('../shared/messages');
 
 class Creator {
@@ -9,7 +10,7 @@ class Creator {
 		const game = new Game();
 		this.games[game.id] = game;
 		game.addPlayer(socket, username);
-
+		game.notifyGameData();
 		console.log(game);
 	}
 
@@ -28,7 +29,7 @@ class Creator {
 		}
 
 		game.addPlayer(socket, username);
-
+		game.notifyGameData();
 		console.log(game);
 	}
 
@@ -40,12 +41,8 @@ class Creator {
 
 		const game = this.games[id];
 		game.removePlayer(socket);
-
-		const playerCount = game.countPlayers();
-		if (playerCount < 1) {
-			delete this.games[id];
-		}
-
+		this.checkGameEmpty(game);
+		game.notifyGameData();
 		console.log(game);
 	}
 
@@ -54,8 +51,19 @@ class Creator {
 			const game = this.games[i];
 			if (game.hasPlayer(socket)) {
 				game.removePlayer(socket);
+				this.checkGameEmpty(game);
+				game.notifyGameData();
 				break;
 			}
+		}
+
+		console.log(this.games);
+	}
+
+	checkGameEmpty(game) {
+		const playerCount = game.countPlayers();
+		if (playerCount < 1) {
+			delete this.games[game.id];
 		}
 	}
 }
