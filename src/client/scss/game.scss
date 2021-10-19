@@ -1,0 +1,90 @@
+.game {
+	& .game-header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+		margin: 10px;
+
+		& .game-id {
+			display: flex;
+			flex-direction: column;
+		}
+
+		& .buttons {
+			display: flex;
+			flex-direction: row;
+		}
+	}
+
+	& .game-content {
+		display: flex;
+		flex-direction: column;
+
+		& .game-content-players {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			width: 75%;
+			margin: 0 auto;
+			margin-top: 50px;
+
+			& .player {
+				display: flex;
+				flex-direction: column;
+				border: 1px solid black;
+				border-radius: 5px;
+			}
+		}
+
+		& .game-content-pile {
+		}
+
+		& .game-content-cards {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-around;
+			width: 75%;
+			margin: 0 auto;
+			margin-top: 50px;
+
+			& div:first-child {
+				margin-left: 0;
+			}
+		}
+	}
+}
+
+.card {
+	display: flex;
+	flex-direction: row;
+	height: 150px;
+	min-width: 90px;
+	background-color: white;
+	box-shadow: 2px 5px 10px 0px black, 0px 0px 10px 1px rgba(0, 0, 0, 0);
+	border-radius: 10px;
+	margin-top: 20px;
+	margin-left: -45px;
+	cursor: pointer;
+	transition: margin 0.05s;
+
+	&.black {
+		color: black;
+	}
+
+	&.red {
+		color: red;
+	}
+
+	&.select {
+		margin-top: 0px;
+	}
+
+	& span {
+		font-size: 40px;
+	}
+
+	& span:first-child {
+		margin-left: 10px;
+	}
+}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createGame, joinGame } from '../actions/game';
-import { ERROR_GAME_FULL, ERROR_GAME_ID } from '../../shared/messages';
+import { ERROR_GAME_FULL, ERROR_GAME_ID, ERROR_GAME_STARTED } from '../../shared/messages';
 
 const GameSettings = ({ socket, username }) => {
 	const dispatch = useDispatch();
@@ -22,6 +22,9 @@ const GameSettings = ({ socket, username }) => {
 			setError('Error - The game is full');
 		});
 
+		socket.on(ERROR_GAME_STARTED, () => {
+			setError('Error - The game has already started');
+		});
 	}, [socket]);
 
 	const handleCreateGame = () => {

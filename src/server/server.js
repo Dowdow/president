@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express');
 const socketio = require('socket.io');
 const messages = require('../shared/messages');
+const CardMixer = require('./cardMixer');
 const Creator = require('./creator');
 
 const app = express();
@@ -19,6 +20,7 @@ io.on(messages.SERVER_CONNECT, socket => {
 	socket.on(messages.CREATE_GAME, createGame)
 	socket.on(messages.JOIN_GAME, joinGame);
 	socket.on(messages.LEAVE_GAME, leaveGame);
+	socket.on(messages.START_GAME, startGame);
 	socket.on(messages.SERVER_DISCONNECT, disconnect);
 });
 
@@ -34,6 +36,10 @@ function joinGame(data) {
 
 function leaveGame(data) {
 	creator.leaveGame(this, data);
+}
+
+function startGame(data) {
+	creator.startGame(this, data);
 }
 
 function disconnect() {

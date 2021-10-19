@@ -1,12 +1,15 @@
+const CardMixer = require('./cardMixer');
 const Player = require('./player');
 const { generateUniqueId } = require('./common');
-const { ADD_PLAYER, REMOVE_PLAYER, GAME_DATA } = require('../shared/messages');
+const messages = require('../shared/messages');
 
 class Game {
 	constructor() {
 		this.id = generateUniqueId();
+		this.started = false;
 		this.sockets = {};
 		this.players = {};
+		this.cardPile = [];
 	}
 
 	addPlayer(socket, username) {
@@ -28,22 +31,48 @@ class Game {
 		return this.sockets[socket.id] !== undefined;
 	}
 
+	hasStarted() {
+		return this.started;
+	}
+
+	startGame(socket) {
+		this.started = true;
+
+		// generate player order
+
+		// generate cards
+		const cardMixer = new CardMixer();
+		cardMixer.generate();
+		cardMixer.shuffle();
+
+		// give cards to players
+		const cards = cardMixer.splitCards(Object.keys(this.players).length);
+		let c = 0;
+		for (const i in this.players) {
+			this.players[i].setCards(cards[c]);
+			c++;
+		}
+
+		this.notifyGameData();
+	}
+
 	notifyGameData() {
 		for (const i in this.sockets) {
 			const socket = this.sockets[i];
-			socket.emit(GAME_DATA, this.serialize());
+			socket.emit(messages.GAME_DATA, this.serialize(socket.id));
 		}
 	}
 
-	serialize() {
+	serialize(id) {
 		const players = {};
 		for (const i in this.players) {
 			const player = this.players[i];
-			players[player.id] = player.serialize();
+			players[player.id] = player.serialize(player.id === id);
 		}
 
 		return {
 			id: this.id,
+			started: this.started,
 			players: players,
 		};
 	}

@@ -1,5 +1,5 @@
 const Game = require('./game');
-const { ERROR_GAME_ID, ERROR_GAME_FULL } = require('../shared/messages');
+const messages = require('../shared/messages');
 
 class Creator {
 	constructor() {
@@ -15,15 +15,20 @@ class Creator {
 
 	joinGame(socket, { id, username }) {
 		if (this.games[id] === undefined) {
-			socket.emit(ERROR_GAME_ID, { id });
+			socket.emit(messages.ERROR_GAME_ID, { id });
 			return;
 		}
 
 		const game = this.games[id];
 
+		if (game.hasStarted()) {
+			socket.emit(messages.ERROR_GAME_STARTED, { id });
+			return;
+		}
+
 		const playerCount = game.countPlayers();
 		if (playerCount >= 6) {
-			socket.emit(ERROR_GAME_FULL, {});
+			socket.emit(messages.ERROR_GAME_FULL, {});
 			return;
 		}
 
@@ -33,7 +38,7 @@ class Creator {
 
 	leaveGame(socket, { id }) {
 		if (this.games[id] === undefined) {
-			socket.emit(ERROR_GAME_ID, { id });
+			socket.emit(messages.ERROR_GAME_ID, { id });
 			return;
 		}
 
@@ -44,6 +49,27 @@ class Creator {
 		if (this.games[id] !== undefined) {
 			game.notifyGameData();
 		}
+	}
+
+	startGame(socket, { id }) {
+		if (this.games[id] === undefined) {
+			socket.emit(messages.ERROR_GAME_ID);
+			return;
+		}
+
+		const game = this.games[id];
+
+		if (game.hasStarted()) {
+			return;
+		}
+
+		const playerCount = game.countPlayers();
+		if (playerCount < 2) {
+			socket.emit(messages.ERROR_MINIMUM_PLAYER);
+			return;
+		}
+
+		game.startGame(socket);
 	}
 
 	searchDisconnectPlayer(socket) {
