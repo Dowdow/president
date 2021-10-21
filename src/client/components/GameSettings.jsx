@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { setError } from '../actions/error';
 import { createGame, joinGame } from '../actions/game';
 import { ERROR_GAME_FULL, ERROR_GAME_ID, ERROR_GAME_STARTED } from '../../shared/messages';
 
@@ -7,7 +8,6 @@ const GameSettings = ({ socket, username }) => {
 	const dispatch = useDispatch();
 
 	const [gameId, setGameId] = useState('');
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		if (socket === null) {
@@ -15,15 +15,15 @@ const GameSettings = ({ socket, username }) => {
 		}
 
 		socket.on(ERROR_GAME_ID, () => {
-			setError('Error - The game id is incorrect');
+			dispatch(setError('Error - The game id is incorrect'));
 		});
 
 		socket.on(ERROR_GAME_FULL, () => {
-			setError('Error - The game is full');
+			dispatch(setError('Error - The game is full'));
 		});
 
 		socket.on(ERROR_GAME_STARTED, () => {
-			setError('Error - The game has already started');
+			dispatch(setError('Error - The game has already started'));
 		});
 	}, [socket]);
 

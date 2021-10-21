@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import Card from './Card';
 import Player from './Player';
-import { leaveGame, startGame } from '../actions/game';
+import { setError } from '../actions/error';
+import { leaveGame, play, startGame } from '../actions/game';
 import { ERROR_MINIMUM_PLAYER } from '../../shared/messages';
 
 const Game = ({ socket, game }) => {
 	const dispatch = useDispatch()
-
-	const [error, setError] = useState(null);
 
 	useEffect(() => {
 		if (socket === null) {
@@ -16,7 +15,7 @@ const Game = ({ socket, game }) => {
 		}
 
 		socket.on(ERROR_MINIMUM_PLAYER, () => {
-			setError('Error - Minimum player number is 2');
+			dispatch(setError('Error - Minimum player number is 2'));
 		});
 	}, [socket]);
 
@@ -26,6 +25,10 @@ const Game = ({ socket, game }) => {
 
 	const handleLeaveGame = () => {
 		dispatch(leaveGame(socket, game.id));
+	}
+
+	const handlePlay = () => {
+		dispatch(play(socket, game.id));
 	}
 
 	if (socket === null) {
@@ -59,6 +62,7 @@ const Game = ({ socket, game }) => {
 							.map((card, index) => <Card key={index} value={card.value} family={card.family} />)
 						: ''}
 				</div>
+				<button onClick={handlePlay}>Play</button>
 			</div>
 		</div>
 	);

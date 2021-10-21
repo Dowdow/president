@@ -14,6 +14,7 @@ const App = () => {
 	const socket = useSelector(state => state.socket);
 	const player = useSelector(state => state.player);
 	const game = useSelector(state => state.game);
+	const error = useSelector(state => state.error);
 
 	useEffect(() => {
 		if (socket === null) {
@@ -54,6 +55,7 @@ const App = () => {
 				{player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
 				{player.username !== null && game !== null ? <Game socket={socket} game={game} /> : ''}
 			</div>
+			{error ? <Error message={error} /> : ''}
 		</div>
 	)
 };

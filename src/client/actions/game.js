@@ -1,4 +1,4 @@
-import { CREATE_GAME, JOIN_GAME, LEAVE_GAME, START_GAME } from "../../shared/messages"
+import { CREATE_GAME, JOIN_GAME, LEAVE_GAME, PLAY, START_GAME } from "../../shared/messages"
 
 export const SET_GAME_DATA = 'SET_GAME_DATA';
 
@@ -31,6 +31,12 @@ export function leaveGame(socket, id) {
 export function startGame(socket, id) {
 	return dispatch => {
 		socket.emit(START_GAME, { id });
+	}
+}
+
+export function play(socket, id, cards) {
+	return dispatch => {
+		socket.emit(PLAY, { id, cards });
 	}
 }
 

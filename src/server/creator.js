@@ -1,4 +1,6 @@
 const Game = require('./game');
+const CardChecker = require('./cardChecker');
+const Card = require('./card');
 const messages = require('../shared/messages');
 
 class Creator {
@@ -69,7 +71,45 @@ class Creator {
 			return;
 		}
 
-		game.startGame(socket);
+		game.start();
+	}
+
+	play(socket, { id, cards }) {
+		if (this.games[id] === undefined) {
+			socket.emit(messages.ERROR_GAME_ID);
+			return;
+		}
+
+		console.log('PLAY - CARDS', cards);
+
+		const game = this.games[id];
+
+		if (!game.hasStarted()) {
+			return;
+		}
+
+		console.log('PLAY - STARTED');
+
+		if (!Array.isArray(cards)) {
+			return;
+		}
+
+		console.log('PLAY - IS ARRAY');
+
+		if (!CardChecker.areCardsValid(cards)) {
+			return;
+		}
+
+		console.log('PLAY - CARDS VALID');
+
+		const cardObjects = [];
+		for (const c in cards) {
+			cardObjects.push(new Card(c.value, c.family));
+		}
+
+		console.log('PLAY - CARDS OBJECT', cardObjects);
+
+		game.play(socket, cardObjects);
 	}
 
 	searchDisconnectPlayer(socket) {
