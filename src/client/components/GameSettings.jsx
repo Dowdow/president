@@ -1,31 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { setError } from '../actions/error';
 import { createGame, joinGame } from '../actions/game';
-import { ERROR_GAME_FULL, ERROR_GAME_ID, ERROR_GAME_STARTED } from '../../shared/messages';
 
 const GameSettings = ({ socket, username }) => {
 	const dispatch = useDispatch();
 
 	const [gameId, setGameId] = useState('');
-
-	useEffect(() => {
-		if (socket === null) {
-			return;
-		}
-
-		socket.on(ERROR_GAME_ID, () => {
-			dispatch(setError('Error - The game id is incorrect'));
-		});
-
-		socket.on(ERROR_GAME_FULL, () => {
-			dispatch(setError('Error - The game is full'));
-		});
-
-		socket.on(ERROR_GAME_STARTED, () => {
-			dispatch(setError('Error - The game has already started'));
-		});
-	}, [socket]);
 
 	const handleCreateGame = () => {
 		dispatch(createGame(socket, username));
@@ -46,17 +26,16 @@ const GameSettings = ({ socket, username }) => {
 
 	return (
 		<div className="game-settings">
-			{error !== null ? <div className="error">{error}</div> : ''}
-			<div className="create">
+			<div className="box">
 				<h3>Create a new game</h3>
 				<button onClick={handleCreateGame}>Create</button>
 			</div>
-			<div className="join">
+			<div className="box">
 				<h3>Join a game</h3>
 				<form onSubmit={handleSubmit}>
 					<div>
 						<label>Game ID</label>
-						<input name="id" type="password" value={gameId} onChange={handleGameIdChange} />
+						<input name="id" type="password" value={gameId} placeholder="********" onChange={handleGameIdChange} />
 					</div>
 					<div>
 						<button type="submit">Join</button>

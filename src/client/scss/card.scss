@@ -1,0 +1,44 @@
+.card {
+	display: flex;
+	flex-direction: row;
+	height: 150px;
+	min-width: 90px;
+	background-color: white;
+	box-shadow: 2px 5px 10px 0px $color-black, 0px 0px 10px 1px rgba(0, 0, 0, 0);
+	border-radius: 10px;
+
+	&.black {
+		color: $color-black;
+	}
+
+	&.red {
+		color: $color-red;
+	}
+
+	& span {
+		font-size: 40px;
+	}
+
+	& span:first-child {
+		margin-left: 10px;
+	}
+}
+
+.playable-card {
+	padding-top: 20px;
+	cursor: pointer;
+	margin-left: -45px;
+	transition: padding 0.05s;
+
+	&:hover {
+		padding-top: 10px;
+	}
+
+	&.select {
+		padding-top: 0px;
+
+		& .card {
+			box-shadow: 2px 5px 10px 0px blue, 0px 0px 10px 1px rgba(47, 0, 255, 0.5);
+		}
+	}
+}

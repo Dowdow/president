@@ -26,7 +26,7 @@ class Player {
 	hasCards(cards) {
 		let cardsOwned = 0;
 
-		for (const c in cards) {
+		for (const c of cards) {
 			const result = this.cards.filter(card => card.isEqualTo(c));
 			cardsOwned += result.length;
 		}
@@ -37,7 +37,7 @@ class Player {
 	removeCards(cards) {
 		const removedCards = [];
 
-		for (c in cards) {
+		for (const c of cards) {
 			const index = this.cards.findIndex(card => card.isEqualTo(c));
 			if (index > -1) {
 				removedCards.push(this.cards.splice(index, 1)[0]);

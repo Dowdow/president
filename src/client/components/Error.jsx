@@ -5,7 +5,7 @@ import { setError } from '../actions/error';
 const Error = ({ message }) => {
 	const dispatch = useDispatch();
 
-	handleClose = () => {
+	const handleClose = () => {
 		dispatch(setError(null));
 	}
 

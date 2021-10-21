@@ -1,3 +1,4 @@
+import { emptySelectedCards } from "./selectedCards";
 import { CREATE_GAME, JOIN_GAME, LEAVE_GAME, PLAY, START_GAME } from "../../shared/messages"
 
 export const SET_GAME_DATA = 'SET_GAME_DATA';
@@ -37,6 +38,7 @@ export function startGame(socket, id) {
 export function play(socket, id, cards) {
 	return dispatch => {
 		socket.emit(PLAY, { id, cards });
+		dispatch(emptySelectedCards());
 	}
 }
 

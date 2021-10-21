@@ -2,7 +2,7 @@ const Cards = require('../shared/cards');
 
 class CardChecker {
 	static areCardsValid(cards) {
-		for (const c in cards) {
+		for (const c of cards) {
 			if (typeof c !== 'object' || c === null) {
 				return false;
 			}

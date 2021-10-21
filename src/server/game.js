@@ -44,7 +44,7 @@ class Game {
 			c++;
 		}
 
-		// set playing sur le joueur order 1
+		this.computeNextTurn();
 
 		this.notifyGameData();
 	}
@@ -54,6 +54,8 @@ class Game {
 		if (player === undefined) {
 			return;
 		}
+
+		console.log('PLAY', cards);
 
 		if (!player.isPlaying()) { // Ou alors carré magique
 			return;
@@ -73,10 +75,14 @@ class Game {
 		// Est ce que le move saute le tour du joueur d'après ?
 		// Est ce que c'est un carré magique ?
 		// Est ce qu'il finit le pli ?
-		// Calcul du joueur suivant
+
+		this.computeNextTurn();
+
 		// Si il n'a plus de cartes finit le tour et assigne le role
 		// Est ce qu'il ne reste plus qu'un seul joueur avec des cartes ? => Game fini
 		// Fin de partie
+
+		this.notifyGameData();
 	}
 
 	notifyGameData() {
@@ -103,7 +109,7 @@ class Game {
 
 	assignPlayersOrder() {
 		let i = 1;
-		for (const p in this.player) {
+		for (const p in this.players) {
 			this.players[p].setOrder(i);
 			i++;
 		}
@@ -117,6 +123,46 @@ class Game {
 		}
 
 		return false;
+	}
+
+	computeNextTurn() {
+		let currentPlayer = this.findPlayerIsPlaying(true);
+		if (currentPlayer === null) {
+			currentPlayer = this.findPlayerWithOrder(1);
+			currentPlayer.setPlaying(true);
+			return;
+		}
+
+		let nextPlayer = null;
+		const currentOrder = currentPlayer.getOrder();
+		if (currentOrder + 1 > Object.keys(this.players).length) {
+			nextPlayer = this.findPlayerWithOrder(1);
+		} else {
+			nextPlayer = this.findPlayerWithOrder(currentOrder + 1);
+		}
+
+		currentPlayer.setPlaying(false);
+		nextPlayer.setPlaying(true);
+	}
+
+	findPlayerIsPlaying(playing) {
+		for (const p in this.players) {
+			if (this.players[p].isPlaying() === playing) {
+				return this.players[p];
+			}
+		}
+
+		return null;
+	}
+
+	findPlayerWithOrder(order) {
+		for (const p in this.players) {
+			if (this.players[p].getOrder() === order) {
+				return this.players[p];
+			}
+		}
+
+		return null;
 	}
 
 	countPlayers() {

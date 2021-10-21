@@ -1,7 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
 
 $main-font: "Roboto Mono", monospace;
+$color-white: #ffffff;
+$color-black: #000000;
+$color-red: #fc466b;
+$color-blue: #3f5efb;
+$gradient: linear-gradient(90deg, $color-red 0%, $color-blue 100%);
 
+@import "buttons.scss";
+@import "card.scss";
+@import "error.scss";
 @import "game.scss";
 @import "gameSettings.scss";
 @import "usernameForm.scss";
@@ -10,6 +18,7 @@ html,
 body {
 	margin: 0;
 	font-family: $main-font;
+	background: #ffffff;
 }
 
 header {
@@ -20,6 +29,7 @@ header {
 
 	& h1 {
 		margin: 10px;
+		font-weight: bold;
 	}
 
 	& span {
@@ -29,4 +39,37 @@ header {
 
 .container {
 	width: 100%;
+}
+
+.box {
+	background: $gradient;
+	border-radius: 10px;
+	border: $color-black 8px solid;
+	box-shadow: 0 10px 0 $color-black;
+}
+
+label {
+	margin-bottom: 10px;
+	font-size: 20px;
+	font-weight: bold;
+}
+
+input {
+	outline: none;
+	border: 5px solid $color-black;
+	border-radius: 10px;
+	font-size: 26px;
+	padding: 5px;
+}
+
+@keyframes BackgroundGradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
 }

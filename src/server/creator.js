@@ -80,34 +80,26 @@ class Creator {
 			return;
 		}
 
-		console.log('PLAY - CARDS', cards);
-
 		const game = this.games[id];
 
 		if (!game.hasStarted()) {
 			return;
 		}
 
-		console.log('PLAY - STARTED');
-
 		if (!Array.isArray(cards)) {
 			return;
 		}
 
-		console.log('PLAY - IS ARRAY');
+		// Check if array empty or use it to skip turn
 
 		if (!CardChecker.areCardsValid(cards)) {
 			return;
 		}
 
-		console.log('PLAY - CARDS VALID');
-
 		const cardObjects = [];
-		for (const c in cards) {
+		for (const c of cards) {
 			cardObjects.push(new Card(c.value, c.family));
 		}
-
-		console.log('PLAY - CARDS OBJECT', cardObjects);
 
 		game.play(socket, cardObjects);
 	}

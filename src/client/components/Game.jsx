@@ -1,23 +1,15 @@
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import Card from './Card';
-import Player from './Player';
-import { setError } from '../actions/error';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import GameContentPlayers from './GameContentPlayers';
+import GameContentPile from './GameContentPile';
+import GameContentCards from './GameContentCards';
+import GameContentButtons from './GameContentButtons';
 import { leaveGame, play, startGame } from '../actions/game';
-import { ERROR_MINIMUM_PLAYER } from '../../shared/messages';
 
 const Game = ({ socket, game }) => {
-	const dispatch = useDispatch()
+	const dispatch = useDispatch();
 
-	useEffect(() => {
-		if (socket === null) {
-			return;
-		}
-
-		socket.on(ERROR_MINIMUM_PLAYER, () => {
-			dispatch(setError('Error - Minimum player number is 2'));
-		});
-	}, [socket]);
+	const selectedCards = useSelector(state => state.selectedCards);
 
 	const handleStartGame = () => {
 		dispatch(startGame(socket, game.id));
@@ -28,7 +20,7 @@ const Game = ({ socket, game }) => {
 	}
 
 	const handlePlay = () => {
-		dispatch(play(socket, game.id));
+		dispatch(play(socket, game.id, selectedCards));
 	}
 
 	if (socket === null) {
@@ -47,22 +39,11 @@ const Game = ({ socket, game }) => {
 					<button onClick={handleLeaveGame}>Leave Game</button>
 				</div>
 			</div>
-			{error !== null ? <div className="error">{error}</div> : ''}
 			<div className="game-content">
-				<div className="game-content-players">
-					{Object.keys(game.players).map((p, index) => <Player key={index} player={game.players[p]} />)}
-				</div>
-				<div className="game-content-pile">
-
-				</div>
-				<div className="game-content-cards">
-					{game.players !== undefined ?
-						game.players[socket.id].cards
-							.sort((a, b) => a.value - b.value)
-							.map((card, index) => <Card key={index} value={card.value} family={card.family} />)
-						: ''}
-				</div>
-				<button onClick={handlePlay}>Play</button>
+				<GameContentPlayers players={game.players} />
+				<GameContentPile pile={game.pile} />
+				<GameContentCards cards={game.players[socket.id].cards} />
+				<GameContentButtons handlePlay={handlePlay} playDisabled={!game.players[socket.id].playing} />
 			</div>
 		</div>
 	);

@@ -17,7 +17,7 @@ const UsernameForm = () => {
 	}
 
 	return (
-		<div className="username-form">
+		<div className="username-form box">
 			<form onSubmit={handleSubmit}>
 				<div>
 					<label>Pseudo</label>

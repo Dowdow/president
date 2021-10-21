@@ -4,6 +4,15 @@ class Pile {
 	}
 
 	isMoveLegal(cards) {
+		if (cards.length > 1) {
+			const firstValue = cards[0].getValue();
+			for (const c of cards) {
+				if (c.getValue() !== firstValue) {
+					return false;
+				}
+			}
+		}
+
 		const lastMoveIndex = Object.keys(this.pile).length;
 		if (lastMoveIndex === 0) {
 			return true;
@@ -14,15 +23,8 @@ class Pile {
 			return false;
 		}
 
-		if (cards.length > 1) {
-			const total = cards.reduce((p, c) => p.getValue() + c.getValue());
-			if ((total / cards.length) !== cards[0].getValue()) {
-				return false;
-			}
-		}
-
-		const lastMoveTotal = lastMove.reduce((p, c) => p.getValue() + c.getValue());
-		const currentTotal = cards.reduce((p, c) => p.getValue() + c.getValue());
+		const lastMoveTotal = lastMove.reduce((p, c) => p + c.getValue(), 0);
+		const currentTotal = cards.reduce((p, c) => p + c.getValue(), 0);
 		if (currentTotal >= lastMoveTotal) {
 			return true;
 		}
@@ -44,7 +46,7 @@ class Pile {
 		for (const p in this.pile) {
 			const move = this.pile[p];
 			const serializedMove = [];
-			for (const card in move) {
+			for (const card of move) {
 				serializedMove.push(card.serialize());
 			}
 

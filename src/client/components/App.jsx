@@ -3,10 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import UsernameForm from './UsernameForm';
 import GameSettings from './GameSettings';
 import Game from './Game';
+import Error from './Error';
 import { connect } from '../actions/socket';
+import { setError } from '../actions/error';
 import { setGameData } from '../actions/game';
-import { setPlayerConnected } from '../actions/player';
-import { CLIENT_CONNECT, CLIENT_DISCONNECT, GAME_DATA } from '../../shared/messages';
+import { setPlayerConnected, setPlayerUsername } from '../actions/player';
+import messages from '../../shared/messages';
 
 const App = () => {
 	const dispatch = useDispatch();
@@ -20,6 +22,8 @@ const App = () => {
 		if (socket === null) {
 			dispatch(connect());
 		}
+
+		dispatch(setPlayerUsername('Test'));
 	}, []);
 
 	useEffect(() => {
@@ -27,16 +31,26 @@ const App = () => {
 			return;
 		}
 
-		socket.on(CLIENT_CONNECT, () => {
+		socket.on(messages.CLIENT_CONNECT, () => {
 			dispatch(setPlayerConnected(true));
 		});
-
-		socket.on(CLIENT_DISCONNECT, () => {
+		socket.on(messages.CLIENT_DISCONNECT, () => {
 			dispatch(setPlayerConnected(false));
 		});
-
-		socket.on(GAME_DATA, (data) => {
+		socket.on(messages.GAME_DATA, (data) => {
 			dispatch(setGameData(data));
+		});
+		socket.on(messages.ERROR_MINIMUM_PLAYER, () => {
+			dispatch(setError('Error - Minimum player number is 2'));
+		});
+		socket.on(messages.ERROR_GAME_ID, () => {
+			dispatch(setError('Error - The game id is incorrect'));
+		});
+		socket.on(messages.ERROR_GAME_FULL, () => {
+			dispatch(setError('Error - The game is full'));
+		});
+		socket.on(messages.ERROR_GAME_STARTED, () => {
+			dispatch(setError('Error - The game has already started'));
 		});
 	}, [socket]);
 
