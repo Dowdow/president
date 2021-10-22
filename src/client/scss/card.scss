@@ -2,9 +2,10 @@
 	display: flex;
 	flex-direction: row;
 	height: 150px;
-	min-width: 90px;
-	background-color: white;
-	box-shadow: 2px 5px 10px 0px $color-black, 0px 0px 10px 1px rgba(0, 0, 0, 0);
+	width: 90px;
+	background-color: $color-white;
+	border: 2px solid;
+	box-shadow: 1px 4px 0px 1px;
 	border-radius: 10px;
 
 	&.black {
@@ -25,20 +26,16 @@
 }
 
 .playable-card {
-	padding-top: 20px;
+	padding-top: 30px;
 	cursor: pointer;
 	margin-left: -45px;
 	transition: padding 0.05s;
 
 	&:hover {
-		padding-top: 10px;
+		padding-top: 20px;
 	}
 
 	&.select {
 		padding-top: 0px;
-
-		& .card {
-			box-shadow: 2px 5px 10px 0px blue, 0px 0px 10px 1px rgba(47, 0, 255, 0.5);
-		}
 	}
 }

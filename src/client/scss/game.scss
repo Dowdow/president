@@ -34,26 +34,75 @@
 		flex-direction: column;
 
 		& .game-content-players {
+			position: absolute;
+			top: 180px;
+			left: 16px;
 			display: flex;
-			flex-direction: row;
-			justify-content: space-around;
-			width: 75%;
+			flex-direction: column;
 			margin: 0 auto;
-			margin-top: 50px;
+			margin-top: 10px;
 
 			& .player {
 				display: flex;
 				flex-direction: column;
-				border: 1px solid $color-black;
-				border-radius: 5px;
-				min-height: 150px;
+				border: 3px solid $color-black;
+				border-radius: 8px;
+				padding: 10px;
+				width: 120px;
+				margin-bottom: 10px;
+				background: $color-white;
+				box-shadow: 0 5px 0 $color-black;
+
+				& > span:first-child {
+					font-size: 20px;
+					margin-bottom: 5px;
+				}
+
+				& .mini-card {
+					display: inline-block;
+					width: 7px;
+					height: 10px;
+					margin: 1px;
+					background: $color-white;
+					border: 2px solid $color-black;
+					border-radius: 4px;
+					box-shadow: 0 3px 0 $color-black;
+				}
 			}
 		}
 
 		& .game-content-pile {
+			position: absolute;
+			top: 300px;
+			left: 0;
+			right: 0;
+			width: 75%;
+			margin-left: auto;
+			margin-right: auto;
+
+			& > div {
+				position: absolute;
+				top: 0px;
+				left: 0;
+				right: 0;
+				margin-left: auto;
+				margin-right: auto;
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+				align-items: center;
+
+				& > div {
+					margin: 5px;
+				}
+			}
 		}
 
 		& .game-content-cards {
+			position: absolute;
+			bottom: 150px;
+			left: 0;
+			right: 0;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-around;
