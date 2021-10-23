@@ -1,3 +1,5 @@
+const { MAX_VALUE } = require("../shared/cards");
+
 class Pile {
 	constructor() {
 		this.pile = {};
@@ -27,6 +29,41 @@ class Pile {
 		const currentTotal = cards.reduce((p, c) => p + c.getValue(), 0);
 		if (currentTotal >= lastMoveTotal) {
 			return true;
+		}
+
+		return false;
+	}
+
+	isPileCompleted() {
+		const pileSize = Object.keys(this.pile).length;
+		if (pileSize === 0) {
+			return false;
+		}
+
+		if (this.pile[pileSize - 1][0].getValue() === MAX_VALUE) {
+			return true;
+		}
+
+		const pileCardSize = this.pile[0].length;
+
+		if (pileCardSize === 4) {
+			return true;
+		}
+
+		if (pileSize >= 4 && pileCardSize === 1) {
+			const firstCard = this.pile[pileSize - 1][0].getValue();
+			const secondCard = this.pile[pileSize - 2][0].getValue();
+			const thirdCard = this.pile[pileSize - 3][0].getValue();
+			const fourthCard = this.pile[pileSize - 4][0].getValue();
+
+			return firstCard === secondCard && secondCard === thirdCard && thirdCard === fourthCard;
+		}
+
+		if (pileSize >= 2 && pileCardSize === 2) {
+			const firstCard = this.pile[pileSize - 1][0].getValue();
+			const secondCard = this.pile[pileSize - 2][0].getValue();
+
+			return firstCard === secondCard;
 		}
 
 		return false;

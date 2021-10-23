@@ -1,5 +1,5 @@
 import { emptySelectedCards } from "./selectedCards";
-import { CREATE_GAME, JOIN_GAME, LEAVE_GAME, PLAY, START_GAME } from "../../shared/messages"
+import messages from "../../shared/messages"
 
 export const SET_GAME_DATA = 'SET_GAME_DATA';
 
@@ -12,32 +12,39 @@ function setGame(data) {
 
 export function createGame(socket, username) {
 	return dispatch => {
-		socket.emit(CREATE_GAME, { username });
+		socket.emit(messages.CREATE_GAME, { username });
 	}
 }
 
 export function joinGame(socket, id, username) {
 	return dispatch => {
-		socket.emit(JOIN_GAME, { id, username });
+		socket.emit(messages.JOIN_GAME, { id, username });
 	}
 }
 
 export function leaveGame(socket, id) {
 	return dispatch => {
-		socket.emit(LEAVE_GAME, { id });
+		socket.emit(messages.LEAVE_GAME, { id });
 		dispatch(setGame(null));
 	}
 }
 
 export function startGame(socket, id) {
 	return dispatch => {
-		socket.emit(START_GAME, { id });
+		socket.emit(messages.START_GAME, { id });
 	}
 }
 
 export function play(socket, id, cards) {
 	return dispatch => {
-		socket.emit(PLAY, { id, cards });
+		socket.emit(messages.PLAY, { id, cards });
+		dispatch(emptySelectedCards());
+	}
+}
+
+export function skip(socket, id) {
+	return dispatch => {
+		socket.emit(messages.SKIP, { id });
 		dispatch(emptySelectedCards());
 	}
 }

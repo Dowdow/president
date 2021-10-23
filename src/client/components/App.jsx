@@ -36,6 +36,7 @@ const App = () => {
 		});
 		socket.on(messages.CLIENT_DISCONNECT, () => {
 			dispatch(setPlayerConnected(false));
+			dispatch(setGameData(null));
 		});
 		socket.on(messages.GAME_DATA, (data) => {
 			dispatch(setGameData(data));

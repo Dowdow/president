@@ -4,7 +4,7 @@ import GameContentPlayers from './GameContentPlayers';
 import GameContentPile from './GameContentPile';
 import GameContentCards from './GameContentCards';
 import GameContentButtons from './GameContentButtons';
-import { leaveGame, play, startGame } from '../actions/game';
+import { leaveGame, play, skip, startGame } from '../actions/game';
 
 const Game = ({ socket, game }) => {
 	const dispatch = useDispatch();
@@ -23,7 +23,11 @@ const Game = ({ socket, game }) => {
 		dispatch(play(socket, game.id, selectedCards));
 	}
 
-	if (socket === null) {
+	const handleSkip = () => {
+		dispatch(skip(socket, game.id));
+	}
+
+	if (socket === null || socket.disconnected) {
 		return 'Refresh the page';
 	}
 
@@ -43,7 +47,7 @@ const Game = ({ socket, game }) => {
 				<GameContentPlayers players={game.players} />
 				<GameContentPile pile={game.pile} />
 				<GameContentCards cards={game.players[socket.id].cards} />
-				<GameContentButtons handlePlay={handlePlay} playDisabled={!game.players[socket.id].playing} />
+				<GameContentButtons handlePlay={handlePlay} handleSkip={handleSkip} playDisabled={!game.players[socket.id].playing} />
 			</div>
 		</div>
 	);

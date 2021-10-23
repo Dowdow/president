@@ -3,8 +3,13 @@ class Player {
 		this.id = id;
 		this.username = username;
 		this.playing = false;
+		this.skipped = false;
 		this.order = null;
 		this.cards = [];
+	}
+
+	getId() {
+		return this.id;
 	}
 
 	isPlaying() {
@@ -13,6 +18,14 @@ class Player {
 
 	setPlaying(playing) {
 		this.playing = playing;
+	}
+
+	isSkipped() {
+		return this.skipped;
+	}
+
+	setSkipped(skipped) {
+		this.skipped = skipped;
 	}
 
 	getOrder() {
@@ -56,6 +69,7 @@ class Player {
 			id: this.id,
 			username: this.username,
 			playing: this.playing,
+			skipped: this.skipped,
 			order: this.order,
 			cards: showCards ? this.cards.map(c => c.serialize()) : this.cards.length,
 		};

@@ -72,6 +72,7 @@ class Creator {
 		}
 
 		game.start();
+		game.notifyGameData();
 	}
 
 	play(socket, { id, cards }) {
@@ -90,7 +91,9 @@ class Creator {
 			return;
 		}
 
-		// Check if array empty or use it to skip turn
+		if (cards.length < 1) {
+			return;
+		}
 
 		if (!CardChecker.areCardsValid(cards)) {
 			return;
@@ -102,6 +105,23 @@ class Creator {
 		}
 
 		game.play(socket, cardObjects);
+		game.notifyGameData();
+	}
+
+	skip(socket, { id }) {
+		if (this.games[id] === undefined) {
+			socket.emit(messages.ERROR_GAME_ID);
+			return;
+		}
+
+		const game = this.games[id];
+
+		if (!game.hasStarted()) {
+			return;
+		}
+
+		game.skip(socket);
+		game.notifyGameData();
 	}
 
 	searchDisconnectPlayer(socket) {
