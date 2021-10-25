@@ -4,6 +4,7 @@ class Player {
 		this.username = username;
 		this.playing = false;
 		this.skipped = false;
+		this.role = null;
 		this.order = null;
 		this.cards = [];
 	}
@@ -28,12 +29,28 @@ class Player {
 		this.skipped = skipped;
 	}
 
+	hasRole() {
+		return this.role !== null;
+	}
+
+	getRole() {
+		return this.role;
+	}
+
+	setRole(role) {
+		this.role = role;
+	}
+
 	getOrder() {
 		return this.order;
 	}
 
 	setOrder(order) {
 		this.order = order;
+	}
+
+	hasCardsLeft() {
+		return this.cards.length > 0 ? true : false;
 	}
 
 	hasCards(cards) {
@@ -70,6 +87,7 @@ class Player {
 			username: this.username,
 			playing: this.playing,
 			skipped: this.skipped,
+			role: this.role,
 			order: this.order,
 			cards: showCards ? this.cards.map(c => c.serialize()) : this.cards.length,
 		};

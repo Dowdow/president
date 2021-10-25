@@ -25,6 +25,8 @@ class Pile {
 			return false;
 		}
 
+		// Si on est sur du une carte par une carte et que les deux dernière sont identiques alors la carte doit avoir la même valeur
+
 		const lastMoveTotal = lastMove.reduce((p, c) => p + c.getValue(), 0);
 		const currentTotal = cards.reduce((p, c) => p + c.getValue(), 0);
 		if (currentTotal >= lastMoveTotal) {

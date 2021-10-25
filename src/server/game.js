@@ -22,20 +22,21 @@ class Game {
 
 	removePlayer(socket) {
 		const player = this.players[socket.id];
-		if (this.countPlayers() > 2 && player.isPlaying()) {
+		if (this.hasStarted() && this.countPlayers() > 2 && player.isPlaying()) {
 			this.computeNextTurn();
 		}
 
 		delete this.sockets[socket.id];
 		delete this.players[socket.id];
 
-		if (this.countPlayers() < 2) {
+		if (this.hasStarted() && this.countPlayers() < 2) {
 			this.endGame(); // Check if valid after finishing method
 		}
 	}
 
 	start() {
 		this.started = true;
+		this.pile.cleanPile();
 
 		if (this.hasPlayerWithNullOrder()) {
 			this.assignPlayersOrder();
@@ -87,6 +88,14 @@ class Game {
 		const removedCards = player.removeCards(cards);
 		this.pile.addCards(removedCards);
 
+		if (!player.hasCardsLeft()) {
+			player.setRole(this.countPlayersWithRole());
+		}
+
+		if (this.countPlayersWithRole() === this.countPlayers() - 1) {
+			this.endGame();
+		}
+
 		this.computeNextTurn();
 	}
 
@@ -118,7 +127,7 @@ class Game {
 			return;
 		}
 
-		if (this.findPlayerIsSkipped(false) === null) {
+		if (!this.canSomeoneStillPlayOnRound()) {
 			this.endRound();
 			return;
 		}
@@ -141,11 +150,11 @@ class Game {
 				currentOrder = nextPlayer.getOrder();
 			}
 
-			if (this.findPlayerIsSkipped(false) === null) {
+			if (!this.canSomeoneStillPlayOnRound()) {
 				this.endRound();
 				return;
 			}
-		} while (nextPlayer !== null && nextPlayer.isSkipped());
+		} while (nextPlayer === null || (nextPlayer !== null && (nextPlayer.isSkipped() || nextPlayer.hasRole())));
 
 		currentPlayer.setPlaying(false);
 		nextPlayer.setPlaying(true);
@@ -165,6 +174,15 @@ class Game {
 
 	endGame() {
 		this.started = false;
+
+		for (const p in this.players) {
+			const player = this.players[p];
+			player.setSkipped(false);
+			player.setPlaying(false);
+			if (!player.hasRole()) {
+				player.setRole(this.countPlayersWithRole());
+			}
+		}
 	}
 
 	notifyGameData() {
@@ -229,14 +247,15 @@ class Game {
 		return null;
 	}
 
-	findPlayerIsSkipped(skipped) {
+	canSomeoneStillPlayOnRound() {
 		for (const p in this.players) {
-			if (this.players[p].isSkipped() === skipped) {
-				return this.players[p];
+			const player = this.players[p];
+			if (player.isSkipped() === false && player.hasRole() === false) {
+				return true;
 			}
 		}
 
-		return null;
+		return false;
 	}
 
 	findPlayerWithOrder(order) {
@@ -247,6 +266,16 @@ class Game {
 		}
 
 		return null;
+	}
+
+	countPlayersWithRole() {
+		let count = 0;
+		for (const p in this.players) {
+			if (this.players[p].hasRole()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	countPlayers() {

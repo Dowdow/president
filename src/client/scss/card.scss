@@ -16,6 +16,10 @@
 		color: $color-red;
 	}
 
+	&.disabled {
+		color: $color-grey !important;
+	}
+
 	& span {
 		font-size: 40px;
 	}
@@ -27,15 +31,23 @@
 
 .playable-card {
 	padding-top: 30px;
+	padding-bottom: 10px;
 	cursor: pointer;
 	margin-left: -40px;
 	transition: padding 0.05s;
 
+	&.disabled {
+		padding-top: 40px !important;
+		padding-bottom: 0px !important;
+	}
+
 	&:hover {
 		padding-top: 20px;
+		padding-bottom: 20px;
 	}
 
 	&.select {
 		padding-top: 0px;
+		padding-bottom: 40px;
 	}
 }

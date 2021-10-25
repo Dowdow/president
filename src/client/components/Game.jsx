@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import GameContentPlayers from './GameContentPlayers';
 import GameContentPile from './GameContentPile';
@@ -9,7 +9,15 @@ import { leaveGame, play, skip, startGame } from '../actions/game';
 const Game = ({ socket, game }) => {
 	const dispatch = useDispatch();
 
+	const [currentMaxCardValue, setCurrentMaxCardValue] = useState(0);
+
 	const selectedCards = useSelector(state => state.selectedCards);
+
+	const pileSize = Object.keys(game.pile).length;
+
+	useEffect(() => {
+		setCurrentMaxCardValue(!game.roundEnded && pileSize > 0 ? game.pile[pileSize - 1][0].value : 0);
+	}, [pileSize]);
 
 	const handleStartGame = () => {
 		dispatch(startGame(socket, game.id));
@@ -46,7 +54,7 @@ const Game = ({ socket, game }) => {
 			<div className="game-content">
 				<GameContentPlayers players={game.players} />
 				<GameContentPile pile={game.pile} />
-				<GameContentCards cards={game.players[socket.id].cards} />
+				<GameContentCards cards={game.players[socket.id].cards} maxValue={currentMaxCardValue} />
 				<GameContentButtons handlePlay={handlePlay} handleSkip={handleSkip} playDisabled={!game.players[socket.id].playing} />
 			</div>
 		</div>
