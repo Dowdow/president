@@ -12,8 +12,15 @@ module.exports = {
 			},
 			{
 				test: /\.s[ac]ss$/i,
-				use: ["style-loader", "css-loader", "sass-loader"],
+				use: ['style-loader', 'css-loader', 'sass-loader'],
 			},
+			{
+				test: /\.mp3$/,
+				loader: 'file-loader',
+				options: {
+					name:'sounds/[name][contenthash:8].[ext]'
+				}
+			}
 		],
 	},
 	resolve: {

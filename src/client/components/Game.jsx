@@ -5,6 +5,7 @@ import GameContentPile from './GameContentPile';
 import GameContentCards from './GameContentCards';
 import GameContentButtons from './GameContentButtons';
 import { leaveGame, nothing, play, skip, startGame } from '../actions/game';
+import { playEndAudio, playPlayingAudio } from '../utils/sounds';
 
 const Game = ({ socket, game }) => {
 	const dispatch = useDispatch();
@@ -31,6 +32,18 @@ const Game = ({ socket, game }) => {
 			}
 		}
 	}, [pileSize, game.roundEnded, game.lastPlayerHasNothing]);
+
+	useEffect(() => {
+		if (!game.started && pileSize > 0) {
+			playEndAudio();
+		}
+	}, [game.started]);
+
+	useEffect(() => {
+		if (me.playing) {
+			playPlayingAudio();
+		}
+	}, [me.playing]);
 
 	const handleStartGame = () => {
 		dispatch(startGame(socket, game.id));

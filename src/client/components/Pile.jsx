@@ -8,8 +8,8 @@ const Pile = ({ pile, stack }) => {
 
 	useEffect(() => {
 		setRotate(randomInt());
-		setTranslateX(randomInt());
-		setTranslateY(randomInt());
+		setTranslateX(xFromStack(stack) + randomInt());
+		setTranslateY(yFromStack(stack) + randomInt());
 	}, [stack]);
 
 	return (
@@ -20,9 +20,39 @@ const Pile = ({ pile, stack }) => {
 }
 
 function randomInt() {
-	const min = -20;
-	const max = 20;
+	const min = -10;
+	const max = 10;
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function xFromStack(stack) {
+	switch (stack % 4) {
+		case 0:
+			return 0;
+		case 1:
+			return -40;
+		case 2:
+			return 30;
+		case 3:
+			return 75;
+		default:
+			return 0;
+	}
+}
+
+function yFromStack(stack) {
+	switch (stack % 4) {
+		case 0:
+			return 0;
+		case 1:
+			return 50;
+		case 2:
+			return 40;
+		case 3:
+			return -30;
+		default:
+			return 0;
+	}
 }
 
 export default Pile;
