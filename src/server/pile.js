@@ -1,11 +1,11 @@
-const { MAX_VALUE } = require("../shared/cards");
+const { MAX_VALUE } = require('../shared/cards');
 
 class Pile {
 	constructor() {
 		this.pile = {};
 	}
 
-	isMoveLegal(cards) {
+	isMoveLegal(cards, lastPlayerHasNothing) {
 		if (cards.length > 1) {
 			const firstValue = cards[0].getValue();
 			for (const c of cards) {
@@ -15,17 +15,24 @@ class Pile {
 			}
 		}
 
-		const lastMoveIndex = Object.keys(this.pile).length;
-		if (lastMoveIndex === 0) {
+		const pileSize = Object.keys(this.pile).length;
+		if (pileSize === 0) {
 			return true;
 		}
 
-		const lastMove = this.pile[lastMoveIndex - 1];
+		const lastMove = this.pile[pileSize - 1];
 		if (lastMove.length !== cards.length) {
 			return false;
 		}
 
-		// Si on est sur du une carte par une carte et que les deux dernière sont identiques alors la carte doit avoir la même valeur
+		if (!lastPlayerHasNothing && pileSize >= 2 && lastMove.length === 1) {
+			const beforeLastMove = this.pile[pileSize - 2];
+			const lastMoveValue = lastMove[0].getValue();
+			const beforeLastMoveValue = beforeLastMove[0].getValue();
+			if (lastMoveValue === beforeLastMoveValue && cards[0].getValue() !== lastMoveValue) {
+				return false;
+			}
+		}
 
 		const lastMoveTotal = lastMove.reduce((p, c) => p + c.getValue(), 0);
 		const currentTotal = cards.reduce((p, c) => p + c.getValue(), 0);

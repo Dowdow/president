@@ -12,6 +12,7 @@ class Game {
 		this.players = {};
 		this.pile = new Pile();
 		this.roundEnded = false;
+		this.lastPlayerHasNothing = false;
 	}
 
 	addPlayer(socket, username) {
@@ -81,12 +82,14 @@ class Game {
 			this.roundEnded = false;
 		}
 
-		if (!this.pile.isMoveLegal(cards)) {
+		if (!this.pile.isMoveLegal(cards, this.lastPlayerHasNothing)) {
 			return;
 		}
 
 		const removedCards = player.removeCards(cards);
 		this.pile.addCards(removedCards);
+
+		this.lastPlayerHasNothing = false;
 
 		if (!player.hasCardsLeft()) {
 			player.setRole(this.countPlayersWithRole());
@@ -94,6 +97,7 @@ class Game {
 
 		if (this.countPlayersWithRole() === this.countPlayers() - 1) {
 			this.endGame();
+			return;
 		}
 
 		this.computeNextTurn();
@@ -107,6 +111,10 @@ class Game {
 
 		console.log('SKIP');
 
+		if (player.isSkipped()) {
+			return;
+		}
+
 		if (!player.isPlaying()) {
 			return;
 		}
@@ -117,6 +125,27 @@ class Game {
 		}
 
 		player.setSkipped(true);
+
+		this.computeNextTurn();
+	}
+
+	nothing(socket) {
+		const player = this.players[socket.id];
+		if (player === undefined) {
+			return;
+		}
+
+		console.log('NOTHING');
+
+		if (player.isSkipped()) {
+			return;
+		}
+
+		if (!player.isPlaying()) {
+			return;
+		}
+
+		this.lastPlayerHasNothing = true;
 
 		this.computeNextTurn();
 	}
@@ -166,6 +195,7 @@ class Game {
 
 	endRound() {
 		this.roundEnded = true;
+		this.lastPlayerHasNothing = false;
 
 		for (const p in this.players) {
 			this.players[p].setSkipped(false);
@@ -174,6 +204,7 @@ class Game {
 
 	endGame() {
 		this.started = false;
+		this.lastPlayerHasNothing = false;
 
 		for (const p in this.players) {
 			const player = this.players[p];
@@ -205,6 +236,7 @@ class Game {
 			players: players,
 			pile: this.pile.serialize(),
 			roundEnded: this.roundEnded,
+			lastPlayerHasNothing: this.lastPlayerHasNothing,
 		};
 	}
 

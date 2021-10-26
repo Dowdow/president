@@ -39,6 +39,7 @@
 	&.disabled {
 		padding-top: 40px !important;
 		padding-bottom: 0px !important;
+		cursor: not-allowed;
 	}
 
 	&:hover {

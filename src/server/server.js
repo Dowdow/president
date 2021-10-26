@@ -22,6 +22,7 @@ io.on(messages.SERVER_CONNECT, socket => {
 	socket.on(messages.START_GAME, startGame);
 	socket.on(messages.PLAY, play);
 	socket.on(messages.SKIP, skip);
+	socket.on(messages.NOTHING, nothing);
 	socket.on(messages.SERVER_DISCONNECT, disconnect);
 });
 
@@ -49,6 +50,10 @@ function play(data) {
 
 function skip(data) {
 	creator.skip(this, data);
+}
+
+function nothing(data) {
+	creator.nothing(this, data);
 }
 
 function disconnect() {

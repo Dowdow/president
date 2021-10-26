@@ -124,6 +124,22 @@ class Creator {
 		game.notifyGameData();
 	}
 
+	nothing(socket, { id }) {
+		if (this.games[id] === undefined) {
+			socket.emit(messages.ERROR_GAME_ID);
+			return;
+		}
+
+		const game = this.games[id];
+
+		if (!game.hasStarted()) {
+			return;
+		}
+
+		game.nothing(socket);
+		game.notifyGameData();
+	}
+
 	searchDisconnectPlayer(socket) {
 		for (const i in this.games) {
 			const game = this.games[i];

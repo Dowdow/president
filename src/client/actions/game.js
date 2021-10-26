@@ -49,6 +49,13 @@ export function skip(socket, id) {
 	}
 }
 
+export function nothing(socket, id) {
+	return dispatch => {
+		socket.emit(messages.NOTHING, { id });
+		dispatch(emptySelectedCards());
+	}
+}
+
 export function setGameData(data) {
 	return dispatch => dispatch(setGame(data));
 }

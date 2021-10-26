@@ -12,6 +12,7 @@ module.exports = Object.freeze({
 	START_GAME: 'start_game',
 	PLAY: 'play',
 	SKIP: 'skip',
+	NOTHING: 'nothing',
 
 	// From Server to Client
 	GAME_DATA: 'game_data',

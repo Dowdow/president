@@ -7,9 +7,9 @@ const Pile = ({ pile, stack }) => {
 	const [translateY, setTranslateY] = useState(0);
 
 	useEffect(() => {
-		setRotate(randomIntTenMinusTen());
-		setTranslateX(randomIntTenMinusTen());
-		setTranslateY(randomIntTenMinusTen());
+		setRotate(randomInt());
+		setTranslateX(randomInt());
+		setTranslateY(randomInt());
 	}, [stack]);
 
 	return (
@@ -19,7 +19,7 @@ const Pile = ({ pile, stack }) => {
 	);
 }
 
-function randomIntTenMinusTen() {
+function randomInt() {
 	const min = -20;
 	const max = 20;
 	return Math.floor(Math.random() * (max - min + 1)) + min;
