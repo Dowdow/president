@@ -28,7 +28,7 @@ const GameSettings = ({ socket, username }) => {
 		<div className="game-settings">
 			<div className="box">
 				<h3>Create a new game</h3>
-				<button onClick={handleCreateGame}>Create</button>
+				<button className="game-button" onClick={handleCreateGame}>Create</button>
 			</div>
 			<div className="box">
 				<h3>Join a game</h3>
@@ -38,7 +38,7 @@ const GameSettings = ({ socket, username }) => {
 						<input name="id" type="password" value={gameId} placeholder="********" onChange={handleGameIdChange} />
 					</div>
 					<div>
-						<button type="submit">Join</button>
+						<button className="game-button" type="submit">Join</button>
 					</div>
 				</form>
 			</div>

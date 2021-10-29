@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import GameHeader from './GameHeader';
+import GameContentAnnouncers from './GameContentAnnouncers';
 import GameContentPlayers from './GameContentPlayers';
 import GameContentPile from './GameContentPile';
 import GameContentCards from './GameContentCards';
 import GameContentButtons from './GameContentButtons';
 import { leaveGame, nothing, play, skip, startGame } from '../actions/game';
-import { playEndAudio, playPlayingAudio } from '../utils/sounds';
 
 const Game = ({ socket, game }) => {
 	const dispatch = useDispatch();
@@ -20,30 +21,8 @@ const Game = ({ socket, game }) => {
 
 	useEffect(() => {
 		setCurrentMaxCardValue(!game.roundEnded && pileSize > 0 ? game.pile[pileSize - 1][0].value : 0);
-		setXOrNothing(false);
-
-		if (!game.roundEnded && !game.lastPlayerHasNothing && pileSize >= 2) {
-			const lastMove = game.pile[pileSize - 1];
-			const lastMoveValue = lastMove[0].value;
-			const beforeLastMove = game.pile[pileSize - 2];
-			const beforeLastMoveValue = beforeLastMove[0].value;
-			if (lastMoveValue === beforeLastMoveValue) {
-				setXOrNothing(true);
-			}
-		}
+		setXOrNothing(!game.roundEnded && !game.lastPlayerHasNothing && pileSize >= 2 && game.pile[pileSize - 1][0].value === game.pile[pileSize - 2][0].value);
 	}, [pileSize, game.roundEnded, game.lastPlayerHasNothing]);
-
-	useEffect(() => {
-		if (!game.started && pileSize > 0) {
-			playEndAudio();
-		}
-	}, [game.started]);
-
-	useEffect(() => {
-		if (me.playing) {
-			playPlayingAudio();
-		}
-	}, [me.playing]);
 
 	const handleStartGame = () => {
 		dispatch(startGame(socket, game.id));
@@ -65,23 +44,23 @@ const Game = ({ socket, game }) => {
 		dispatch(nothing(socket, game.id));
 	}
 
-	if (socket === null || socket.disconnected) {
+	if (socket === null || socket.disconnected || game == undefined) {
 		return 'Refresh the page';
 	}
 
 	return (
 		<div className="game">
-			<div className="game-header">
-				<div className="game-id">
-					<span>Game ID: {game.id}</span>
-					<span>Send this ID to your friends for them to join your game</span>
-				</div>
-				<div className="buttons">
-					{!game.started ? <button onClick={handleStartGame}>Start Game</button> : ''}
-					<button onClick={handleLeaveGame}>Leave Game</button>
-				</div>
-			</div>
+			<GameHeader
+				gameId={game.id}
+				gameStarted={game.started}
+				handleStartGame={handleStartGame}
+				handleLeaveGame={handleLeaveGame} />
 			<div className="game-content">
+				<GameContentAnnouncers
+					gameStarted={game.started}
+					pileSize={pileSize}
+					playing={me.playing}
+					roundEnded={game.roundEnded} />
 				<GameContentPlayers players={game.players} />
 				<GameContentPile pile={game.pile} />
 				<GameContentCards

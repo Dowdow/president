@@ -19,15 +19,9 @@
 	background: linear-gradient(90deg, #d53369 0%, #daae51 100%);
 
 	& button {
-		border: 0px;
-		box-shadow: none;
-		width: auto;
-		height: auto;
+		font-family: $main-font;
+		border: none;
 		background: transparent;
-
-		&:active {
-			box-shadow: none;
-			transform: none;
-		}
+		cursor: pointer;
 	}
 }

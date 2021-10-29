@@ -24,7 +24,7 @@ const UsernameForm = () => {
 					<input type="text" name="username" max="30" placeholder="Pseudo" autoComplete="off" value={username} onChange={handleChangeUsername} />
 				</div>
 				<div>
-					<button type="submit">Valider</button>
+					<button className="game-button" type="submit">Valider</button>
 				</div>
 			</form>
 		</div>

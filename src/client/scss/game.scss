@@ -13,9 +13,23 @@
 			display: flex;
 			flex-direction: column;
 
+			> div {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-bottom: 10px;
+			}
+
 			& span:first-child {
 				font-size: 26px;
-				margin-bottom: 10px;
+			}
+
+			& button {
+				border: none;
+				background: transparent;
+				cursor: pointer;
+				font-size: 26px;
+				margin-left: 5px;
 			}
 		}
 
@@ -44,39 +58,62 @@
 
 			& .player {
 				display: flex;
-				flex-direction: column;
-				border: 3px solid $color-black;
-				border-radius: 8px;
-				padding: 10px;
-				width: 120px;
-				margin-bottom: 10px;
-				background: $color-blue;
-				box-shadow: 0 5px 0 $color-black;
+				flex-direction: row;
+				align-items: center;
+				margin-bottom: 20px;
 				transition: margin-left 0.1s ease-in-out;
 
 				&.playing {
-					background: $color-red;
 					margin-left: 20px;
+
+					& .player-content {
+						background: $color-red;
+					}
 				}
 
 				&.skipped {
-					background: $color-white;
+					& .player-content {
+						background: $color-white;
+					}
 				}
 
-				& > span:first-child {
-					font-size: 20px;
-					margin-bottom: 5px;
+				& .player-content {
+					display: flex;
+					flex-direction: column;
+					border: 3px solid $color-black;
+					border-radius: 8px;
+					padding: 10px;
+					width: 120px;
+					background: $color-blue;
+					box-shadow: 0 5px 0 $color-black;
+
+					& > span:first-child {
+						font-size: 24px;
+						margin-bottom: 5px;
+					}
+
+					& .mini-card {
+						display: inline-block;
+						width: 7px;
+						height: 10px;
+						margin: 1px;
+						background: $color-white;
+						border: 2px solid $color-black;
+						border-radius: 4px;
+						box-shadow: 0 3px 0 $color-black;
+					}
 				}
 
-				& .mini-card {
-					display: inline-block;
-					width: 7px;
-					height: 10px;
-					margin: 1px;
-					background: $color-white;
-					border: 2px solid $color-black;
-					border-radius: 4px;
-					box-shadow: 0 3px 0 $color-black;
+				& .player-aside {
+					display: flex;
+					flex-direction: column;
+					margin-left: 10px;
+
+					& span {
+						font-size: 22px;
+						margin-top: 2px;
+						margin-bottom: 2px;
+					}
 				}
 			}
 		}

@@ -1,18 +1,18 @@
 export function transformRoleToString(role, playerCount) {
 	switch (role) {
 		case 0:
-			return 'Président';
+			return '👑';
 		case 1:
-			return playerCount === 2 ? 'Trou duc' : playerCount === 3 ? 'Neutre' : 'Vice-Président';
+			return playerCount === 2 ? '💩' : playerCount === 3 ? '🙄' : '😎';
 		case 2:
-			return playerCount === 3 ? 'Trou duc' : playerCount === 4 ? 'Vice trou' : 'Neutre';
+			return playerCount === 3 ? '💩' : playerCount === 4 ? '🤡' : '🙄';
 		case 3:
-			return playerCount === 4 ? 'Trou duc' : playerCount === 5 ? 'Vice trou' : 'Neutre';
+			return playerCount === 4 ? '💩' : playerCount === 5 ? '🤡' : '🙄';
 		case 4:
-			return playerCount > 5 ? 'Vice trou duc' : 'Trou duc';
+			return playerCount > 5 ? '🤡' : '💩';
 		case 5:
-			return 'Trou duc';
+			return '💩';
 		default:
-			return 'Candidate';
+			return '🎓';
 	}
 }

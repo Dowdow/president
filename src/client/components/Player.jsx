@@ -6,11 +6,16 @@ const Player = ({ player, totalPlayers }) => {
 	const className = 'player' + (player.playing ? ' playing' : '') + (player.skipped ? ' skipped' : '');
 	return (
 		<div className={className} style={{ order: player.order }}>
-			<span>{player.username} - {cardsLeft}</span>
-			<span>{Array.apply(null, Array(cardsLeft)).map((c, i) => <span key={i} className="mini-card"></span>)}</span>
-			<span>{transformRoleToString(player.role, totalPlayers)}</span>
-			{player.playing ? <span>Playing</span> : ''}
-			{player.skipped ? <span>Skipped</span> : ''}
+			<div className="player-content">
+				<span>{player.username}</span>
+				<span>{Array.apply(null, Array(cardsLeft)).map((c, i) => <span key={i} className="mini-card"></span>)}</span>
+			</div>
+			<div className="player-aside">
+				<span>🃏{cardsLeft}</span>
+				<span>{transformRoleToString(player.role, totalPlayers)}</span>
+				{player.playing ? <span>🤔</span> : ''}
+				{player.skipped ? <span>😴</span> : ''}
+			</div>
 		</div>
 	);
 }
