@@ -10,69 +10,67 @@ import { setGameData } from '../actions/game';
 import { setPlayerConnected, setPlayerUsername } from '../actions/player';
 import messages from '../../shared/messages';
 
-const App = () => {
-	const dispatch = useDispatch();
+export default function App() {
+  const dispatch = useDispatch();
 
-	const socket = useSelector(state => state.socket);
-	const player = useSelector(state => state.player);
-	const game = useSelector(state => state.game);
-	const error = useSelector(state => state.error);
+  const socket = useSelector((state) => state.socket);
+  const player = useSelector((state) => state.player);
+  const game = useSelector((state) => state.game);
+  const error = useSelector((state) => state.error);
 
-	useEffect(() => {
-		if (socket === null) {
-			dispatch(connect());
-		}
+  useEffect(() => {
+    if (socket === null) {
+      dispatch(connect());
+    }
 
-		dispatch(setPlayerUsername('Test'));
-	}, []);
+    dispatch(setPlayerUsername('Test'));
+  }, []);
 
-	useEffect(() => {
-		if (socket === null) {
-			return;
-		}
+  useEffect(() => {
+    if (socket === null) {
+      return;
+    }
 
-		socket.on(messages.CLIENT_CONNECT, () => {
-			dispatch(setPlayerConnected(true));
-		});
-		socket.on(messages.CLIENT_DISCONNECT, () => {
-			dispatch(setPlayerConnected(false));
-			dispatch(setGameData(null));
-		});
-		socket.on(messages.GAME_DATA, (data) => {
-			dispatch(setGameData(data));
-		});
-		socket.on(messages.ERROR_MINIMUM_PLAYER, () => {
-			dispatch(setError('Error - Minimum player number is 2'));
-		});
-		socket.on(messages.ERROR_GAME_ID, () => {
-			dispatch(setError('Error - The game id is incorrect'));
-		});
-		socket.on(messages.ERROR_GAME_FULL, () => {
-			dispatch(setError('Error - The game is full'));
-		});
-		socket.on(messages.ERROR_GAME_STARTED, () => {
-			dispatch(setError('Error - The game has already started'));
-		});
-	}, [socket]);
+    socket.on(messages.CLIENT_CONNECT, () => {
+      dispatch(setPlayerConnected(true));
+    });
+    socket.on(messages.CLIENT_DISCONNECT, () => {
+      dispatch(setPlayerConnected(false));
+      dispatch(setGameData(null));
+    });
+    socket.on(messages.GAME_DATA, (data) => {
+      dispatch(setGameData(data));
+    });
+    socket.on(messages.ERROR_MINIMUM_PLAYER, () => {
+      dispatch(setError('Error - Minimum player number is 2'));
+    });
+    socket.on(messages.ERROR_GAME_ID, () => {
+      dispatch(setError('Error - The game id is incorrect'));
+    });
+    socket.on(messages.ERROR_GAME_FULL, () => {
+      dispatch(setError('Error - The game is full'));
+    });
+    socket.on(messages.ERROR_GAME_STARTED, () => {
+      dispatch(setError('Error - The game has already started'));
+    });
+  }, [socket]);
 
-	if (socket === null) {
-		return 'Loading...';
-	}
+  if (socket === null) {
+    return 'Loading...';
+  }
 
-	return (
-		<div>
-			<header>
-				<h1>Président</h1>
-				<span>{player.connected ? 'Connected' : 'Disconnected'}</span>
-			</header>
-			<div className="container">
-				{player.username === null ? <UsernameForm /> : ''}
-				{player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
-				{player.username !== null && game !== null ? <Game socket={socket} game={game} /> : ''}
-			</div>
-			{error ? <Error message={error} /> : ''}
-		</div>
-	)
-};
-
-export default App;
+  return (
+    <div className="w-full">
+      <header className="flex flex-row justify-between items-center">
+        <h1 className="m-2 text-3xl font-bold">Président</h1>
+        <span className="mr-2">{player.connected ? 'Connected' : 'Disconnected'}</span>
+      </header>
+      <div className="w-full">
+        {player.username === null ? <UsernameForm /> : ''}
+        {player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
+        {player.username !== null && game !== null ? <Game socket={socket} game={game} /> : ''}
+      </div>
+      {error ? <Error message={error} /> : ''}
+    </div>
+  );
+}

@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-red: #fc466b;
+    --color-blue: #3f5efb;
+  }
+
+  body {
+    @apply bg-white font-roboto;
+  }
+
+  label {
+    @apply mb-2 text-xl font-bold;
+  }
+
+  input {
+    @apply p-1 text-2xl border-black border-4 rounded-lg outline-none;
+  }
+
+  .box {
+    @apply bg-skin-gradient border-8 border-black shadow-fat rounded-lg;
+  }
+
+  .game-button {
+    @apply w-36 h-16 border-4 text-xl font-bold text-black border-black bg-white rounded-lg shadow-semi cursor-pointer transition-all;
+  }
+
+  .game-button:active {
+    @apply shadow-slim translate-y-button;
+  }
+
+  .game-button:disabled {
+    @apply text-gray-500 border-gray-500 cursor-not-allowed;
+  }
+}
+
+@keyframes BackgroundGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}

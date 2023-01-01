@@ -8,6 +8,7 @@
     "dev": "webpack --mode=development --config webpack.config.js",
     "build": "webpack --mode=production --config webpack.config.js",
     "start": "node src/server/server.js",
+    "eslint": "eslint --ext .js --ext .jsx src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -31,14 +32,20 @@
     "@babel/core": "^7.15.8",
     "@babel/preset-env": "^7.15.8",
     "@babel/preset-react": "^7.14.5",
-    "babel-loader": "^8.2.2",
+    "autoprefixer": "^10.4.5",
+    "babel-loader": "^9.1.0",
     "css-loader": "^6.4.0",
+    "eslint": "^8.14",
+    "eslint-config-airbnb": "^19.0",
+    "eslint-plugin-react": "^7.29",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.4.0",
-    "node-sass": "^7.0.1",
-    "sass-loader": "^12.2.0",
+    "postcss": "^8.4.12",
+    "postcss-loader": "^7.0.2",
+    "postcss-preset-env": "^7.4.3",
     "style-loader": "^3.3.0",
+    "tailwindcss": "^3.0.24",
     "webpack": "^5.58.2",
-    "webpack-cli": "^4.9.0"
+    "webpack-cli": "^5.0.1"
   }
 }

@@ -13,20 +13,20 @@ export const playingAudio = new Audio(playing);
 export const skipAudio = new Audio(skip);
 
 export function playCardAudio() {
-	cardAudio.play();
+  cardAudio.play();
 }
 export function playEndAudio() {
-	endAudio.play();
+  endAudio.play();
 }
 export function playNothingAudio() {
-	nothingAudio.play();
+  nothingAudio.play();
 }
 export function playNothing2Audio() {
-	nothing2Audio.play();
+  nothing2Audio.play();
 }
 export function playPlayingAudio() {
-	playingAudio.play();
+  playingAudio.play();
 }
 export function playSkipAudio() {
-	skipAudio.play();
+  skipAudio.play();
 }

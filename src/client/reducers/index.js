@@ -6,11 +6,11 @@ import selectedCards from './selectedCards';
 import socket from './socket';
 
 const appReducer = combineReducers({
-	error,
-	game,
-	player,
-	selectedCards,
-	socket,
+  error,
+  game,
+  player,
+  selectedCards,
+  socket,
 });
 
 export default appReducer;

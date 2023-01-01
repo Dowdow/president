@@ -1,13 +1,11 @@
 import React from 'react';
 import Player from './Player';
 
-const GameContentPlayers = ({ players }) => {
-	const totalPlayers = Object.keys(players).length;
-	return (
-		<div className="game-content-players">
-			{Object.keys(players).map((p, index) => <Player key={'player-' + index} player={players[p]} totalPlayers={totalPlayers} />)}
-		</div>
-	);
+export default function GameContentPlayers({ players }) {
+  const totalPlayers = Object.keys(players).length;
+  return (
+    <div className="absolute top-48 left-4 flex flex-col mt-3">
+      {Object.keys(players).map((p, index) => <Player key={index} player={players[p]} totalPlayers={totalPlayers} />)}
+    </div>
+  );
 }
-
-export default GameContentPlayers;

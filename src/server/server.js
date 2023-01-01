@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 const express = require('express');
 const socketio = require('socket.io');
 const messages = require('../shared/messages');
@@ -13,50 +13,50 @@ console.log(`Server listening on port ${port}`);
 
 const io = socketio(server);
 
-io.on(messages.SERVER_CONNECT, socket => {
-	console.log('Player connected', socket.id);
-
-	socket.on(messages.CREATE_GAME, createGame)
-	socket.on(messages.JOIN_GAME, joinGame);
-	socket.on(messages.LEAVE_GAME, leaveGame);
-	socket.on(messages.START_GAME, startGame);
-	socket.on(messages.PLAY, play);
-	socket.on(messages.SKIP, skip);
-	socket.on(messages.NOTHING, nothing);
-	socket.on(messages.SERVER_DISCONNECT, disconnect);
-});
-
 const creator = new Creator();
 
 function createGame(data) {
-	creator.createGame(this, data);
+  creator.createGame(this, data);
 }
 
 function joinGame(data) {
-	creator.joinGame(this, data)
+  creator.joinGame(this, data);
 }
 
 function leaveGame(data) {
-	creator.leaveGame(this, data);
+  creator.leaveGame(this, data);
 }
 
 function startGame(data) {
-	creator.startGame(this, data);
+  creator.startGame(this, data);
 }
 
 function play(data) {
-	creator.play(this, data);
+  creator.play(this, data);
 }
 
 function skip(data) {
-	creator.skip(this, data);
+  creator.skip(this, data);
 }
 
 function nothing(data) {
-	creator.nothing(this, data);
+  creator.nothing(this, data);
 }
 
 function disconnect() {
-	creator.searchDisconnectPlayer(this);
-	console.log('Player disconnected', this.id);
+  creator.searchDisconnectPlayer(this);
+  console.log('Player disconnected', this.id);
 }
+
+io.on(messages.SERVER_CONNECT, (socket) => {
+  console.log('Player connected', socket.id);
+
+  socket.on(messages.CREATE_GAME, createGame);
+  socket.on(messages.JOIN_GAME, joinGame);
+  socket.on(messages.LEAVE_GAME, leaveGame);
+  socket.on(messages.START_GAME, startGame);
+  socket.on(messages.PLAY, play);
+  socket.on(messages.SKIP, skip);
+  socket.on(messages.NOTHING, nothing);
+  socket.on(messages.SERVER_DISCONNECT, disconnect);
+});
