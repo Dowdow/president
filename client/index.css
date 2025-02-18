@@ -1,0 +1,8 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap");
+
+@import "tailwindcss";
+
+:root {
+  --color-red: #fc466b;
+  --color-blue: #3f5efb;
+}

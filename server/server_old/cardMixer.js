@@ -18,12 +18,12 @@ class CardMixer {
   }
 
   shuffle() {
-    let currentIndex = this.cards.length; let
-      randomIndex;
+    let currentIndex = this.cards.length;
+    let randomIndex;
 
-    while (currentIndex != 0) {
+    while (currentIndex !== 0) {
       randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex--;
+      currentIndex -= 1;
       [this.cards[currentIndex], this.cards[randomIndex]] = [this.cards[randomIndex], this.cards[currentIndex]];
     }
   }

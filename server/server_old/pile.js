@@ -26,9 +26,8 @@ class Pile {
     }
 
     if (!lastPlayerHasNothing && pileSize >= 2 && lastMove.length === 1) {
-      const beforeLastMove = this.pile[pileSize - 2];
       const lastMoveValue = lastMove[0].getValue();
-      const beforeLastMoveValue = beforeLastMove[0].getValue();
+      const beforeLastMoveValue = this.pile[pileSize - 2][0].getValue();
       if (lastMoveValue === beforeLastMoveValue && cards[0].getValue() !== lastMoveValue) {
         return false;
       }
