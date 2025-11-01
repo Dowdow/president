@@ -1,9 +1,9 @@
-import card from '../sounds/card.mp3';
-import end from '../sounds/end.mp3';
-import nothing from '../sounds/nothing.mp3';
-import nothing2 from '../sounds/nothing2.mp3';
-import playing from '../sounds/playing.mp3';
-import skip from '../sounds/skip.mp3';
+import card from "../sounds/card.mp3";
+import end from "../sounds/end.mp3";
+import nothing from "../sounds/nothing.mp3";
+import nothing2 from "../sounds/nothing2.mp3";
+import playing from "../sounds/playing.mp3";
+import skip from "../sounds/skip.mp3";
 
 export const cardAudio = new Audio(card);
 export const endAudio = new Audio(end);

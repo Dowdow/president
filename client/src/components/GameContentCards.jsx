@@ -1,5 +1,4 @@
-import React from 'react';
-import PlayableCard from './PlayableCard';
+import PlayableCard from "./PlayableCard";
 
 export default function GameContentCards({ cards, maxValue, xOrNothing }) {
   return (
@@ -11,7 +10,9 @@ export default function GameContentCards({ cards, maxValue, xOrNothing }) {
             key={`${card.family}-${card.value}`}
             value={card.value}
             family={card.family}
-            disabled={xOrNothing ? card.value !== maxValue : card.value < maxValue}
+            disabled={
+              xOrNothing ? card.value !== maxValue : card.value < maxValue
+            }
           />
         ))}
     </div>

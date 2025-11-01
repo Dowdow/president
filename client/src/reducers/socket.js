@@ -1,4 +1,4 @@
-import { SET_SOCKET } from '../actions/socket';
+import { SET_SOCKET } from "../actions/socket";
 
 export default function socket(state = null, action = {}) {
   switch (action.type) {

@@ -1,14 +1,14 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import UsernameForm from './UsernameForm';
-import GameSettings from './GameSettings';
-import Game from './Game';
-import Error from './Error';
-import { connect } from '../actions/socket';
-import { setError } from '../actions/error';
-import { setGameData } from '../actions/game';
-import { setPlayerConnected, setPlayerUsername } from '../actions/player';
-import messages from '../../shared/messages';
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import UsernameForm from "./UsernameForm";
+import GameSettings from "./GameSettings";
+import Game from "./Game";
+import Error from "./Error";
+import { connect } from "../actions/socket";
+import { setError } from "../actions/error";
+import { setGameData } from "../actions/game";
+import { setPlayerConnected, setPlayerUsername } from "../actions/player";
+import messages from "../../shared/messages";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ export default function App() {
       dispatch(connect());
     }
 
-    dispatch(setPlayerUsername('Test'));
+    dispatch(setPlayerUsername("Test"));
   }, []);
 
   useEffect(() => {
@@ -42,35 +42,45 @@ export default function App() {
       dispatch(setGameData(data));
     });
     socket.on(messages.ERROR_MINIMUM_PLAYER, () => {
-      dispatch(setError('Error - Minimum player number is 2'));
+      dispatch(setError("Error - Minimum player number is 2"));
     });
     socket.on(messages.ERROR_GAME_ID, () => {
-      dispatch(setError('Error - The game id is incorrect'));
+      dispatch(setError("Error - The game id is incorrect"));
     });
     socket.on(messages.ERROR_GAME_FULL, () => {
-      dispatch(setError('Error - The game is full'));
+      dispatch(setError("Error - The game is full"));
     });
     socket.on(messages.ERROR_GAME_STARTED, () => {
-      dispatch(setError('Error - The game has already started'));
+      dispatch(setError("Error - The game has already started"));
     });
   }, [socket]);
 
   if (socket === null) {
-    return 'Loading...';
+    return "Loading...";
   }
 
   return (
     <div className="w-full">
       <header className="flex flex-row justify-between items-center">
         <h1 className="m-2 text-3xl font-bold">Président</h1>
-        <span className="mr-2">{player.connected ? 'Connected' : 'Disconnected'}</span>
+        <span className="mr-2">
+          {player.connected ? "Connected" : "Disconnected"}
+        </span>
       </header>
       <div className="w-full">
-        {player.username === null ? <UsernameForm /> : ''}
-        {player.username !== null && game === null ? <GameSettings socket={socket} username={player.username} /> : ''}
-        {player.username !== null && game !== null ? <Game socket={socket} game={game} /> : ''}
+        {player.username === null ? <UsernameForm /> : ""}
+        {player.username !== null && game === null ? (
+          <GameSettings socket={socket} username={player.username} />
+        ) : (
+          ""
+        )}
+        {player.username !== null && game !== null ? (
+          <Game socket={socket} game={game} />
+        ) : (
+          ""
+        )}
       </div>
-      {error ? <Error message={error} /> : ''}
+      {error ? <Error message={error} /> : ""}
     </div>
   );
 }

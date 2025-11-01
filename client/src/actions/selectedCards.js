@@ -1,6 +1,6 @@
-export const ADD_SELECTED_CARD = 'ADD_SELECTED_CARD';
-export const REMOVE_SELECTED_CARD = 'REMOVE_SELECTED_CARD';
-export const EMPTY_SELECTED_CARDS = 'EMPTY_SELECTED_CARDS';
+export const ADD_SELECTED_CARD = "ADD_SELECTED_CARD";
+export const REMOVE_SELECTED_CARD = "REMOVE_SELECTED_CARD";
+export const EMPTY_SELECTED_CARDS = "EMPTY_SELECTED_CARDS";
 
 export function addSelectedCard(card) {
   return (dispatch) => dispatch({ type: ADD_SELECTED_CARD, card });

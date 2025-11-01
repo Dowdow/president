@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import GameHeader from './GameHeader';
-import GameContentAnnouncers from './GameContentAnnouncers';
-import GameContentPlayers from './GameContentPlayers';
-import GameContentPile from './GameContentPile';
-import GameContentCards from './GameContentCards';
-import GameContentButtons from './GameContentButtons';
-import { leaveGame, nothing, play, skip, startGame } from '../actions/game';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import GameHeader from "./GameHeader";
+import GameContentAnnouncers from "./GameContentAnnouncers";
+import GameContentPlayers from "./GameContentPlayers";
+import GameContentPile from "./GameContentPile";
+import GameContentCards from "./GameContentCards";
+import GameContentButtons from "./GameContentButtons";
+import { leaveGame, nothing, play, skip, startGame } from "../actions/game";
 
 export default function Game({ socket, game }) {
   const dispatch = useDispatch();
@@ -20,8 +20,15 @@ export default function Game({ socket, game }) {
   const pileSize = Object.keys(game.pile).length;
 
   useEffect(() => {
-    setCurrentMaxCardValue(!game.roundEnded && pileSize > 0 ? game.pile[pileSize - 1][0].value : 0);
-    setXOrNothing(!game.roundEnded && !game.lastPlayerHasNothing && pileSize >= 2 && game.pile[pileSize - 1][0].value === game.pile[pileSize - 2][0].value);
+    setCurrentMaxCardValue(
+      !game.roundEnded && pileSize > 0 ? game.pile[pileSize - 1][0].value : 0,
+    );
+    setXOrNothing(
+      !game.roundEnded &&
+        !game.lastPlayerHasNothing &&
+        pileSize >= 2 &&
+        game.pile[pileSize - 1][0].value === game.pile[pileSize - 2][0].value,
+    );
   }, [pileSize, game.roundEnded, game.lastPlayerHasNothing]);
 
   const handleStartGame = () => {
@@ -45,7 +52,7 @@ export default function Game({ socket, game }) {
   };
 
   if (socket === null || socket.disconnected || game == undefined) {
-    return 'Refresh the page';
+    return "Refresh the page";
   }
 
   return (

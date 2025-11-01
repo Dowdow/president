@@ -1,4 +1,4 @@
-import { SET_GAME_DATA } from '../actions/game';
+import { SET_GAME_DATA } from "../actions/game";
 
 export default function game(state = null, action = {}) {
   switch (action.type) {

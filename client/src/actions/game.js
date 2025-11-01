@@ -1,7 +1,7 @@
-import { emptySelectedCards } from './selectedCards';
-import messages from '../../shared/messages';
+import { emptySelectedCards } from "./selectedCards";
+import messages from "../../shared/messages";
 
-export const SET_GAME_DATA = 'SET_GAME_DATA';
+export const SET_GAME_DATA = "SET_GAME_DATA";
 
 function setGame(data) {
   return {

@@ -1,6 +1,9 @@
-import { SET_PLAYER_CONNECTED, SET_PLAYER_USERNAME } from '../actions/player';
+import { SET_PLAYER_CONNECTED, SET_PLAYER_USERNAME } from "../actions/player";
 
-export default function player(state = { username: null, connected: false }, action = {}) {
+export default function player(
+  state = { username: null, connected: false },
+  action = {},
+) {
   switch (action.type) {
     case SET_PLAYER_CONNECTED:
       return { ...state, connected: action.connected };
