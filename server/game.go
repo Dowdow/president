@@ -4,7 +4,7 @@ import (
 	"sync"
 )
 
-const maxPlayers = 6
+const MAX_PLAYERS = 6
 
 // GameError is returned by Game methods when an action can't be performed;
 // its Code is sent back to the requesting client so the UI can react to it.
@@ -154,7 +154,7 @@ func (g *Game) AddPlayer(p *Player) error {
 			return errGameStarted
 		}
 
-		if len(g.players) >= maxPlayers {
+		if len(g.players) >= MAX_PLAYERS {
 			return errGameFull
 		}
 

@@ -6,8 +6,8 @@ import (
 	"time"
 )
 
-const sessionTTL = 30 * time.Second
-const maxUsernameLength = 20
+const SESSION_TTL = 30 * time.Second
+const MAX_USERNAME_LENGTH = 20
 
 var (
 	errGameNotFound    = &GameError{ErrCodeGameNotFound}
@@ -42,7 +42,7 @@ func NewDirector() *Director {
 
 func validateUsername(username string) error {
 	username = strings.TrimSpace(username)
-	if username == "" || len(username) > maxUsernameLength {
+	if username == "" || len(username) > MAX_USERNAME_LENGTH {
 		return errInvalidUsername
 	}
 
@@ -86,7 +86,7 @@ func (d *Director) JoinGame(gameID string, username string) (playerID string, to
 		return "", "", errGameStarted
 	}
 
-	if game.CountPlayers() >= maxPlayers {
+	if game.CountPlayers() >= MAX_PLAYERS {
 		return "", "", errGameFull
 	}
 
@@ -104,7 +104,7 @@ func (d *Director) createSessionLocked(gameID string, username string) (playerID
 		gameID:   gameID,
 		username: username,
 		playerID: playerID,
-		expires:  time.Now().Add(sessionTTL),
+		expires:  time.Now().Add(SESSION_TTL),
 	}
 
 	return playerID, token

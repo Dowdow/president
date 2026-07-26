@@ -9,7 +9,7 @@ func newCard(value int) *Card {
 func TestAddPlayerRejectsWhenFull(t *testing.T) {
 	g := NewGame()
 
-	for i := 0; i < maxPlayers; i++ {
+	for i := 0; i < MAX_PLAYERS; i++ {
 		p, _ := newTestPlayer("player", g)
 		if err := g.AddPlayer(p); err != nil {
 			t.Fatalf("expected player %d to be added, got error %v", i, err)

@@ -28,7 +28,7 @@ func checkOrigin(r *http.Request) bool {
 	}
 
 	origin := r.Header.Get("Origin")
-	for _, o := range strings.Split(allowed, ",") {
+	for o := range strings.SplitSeq(allowed, ",") {
 		if strings.TrimSpace(o) == origin {
 			return true
 		}
